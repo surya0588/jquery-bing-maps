@@ -1,0 +1,101 @@
+<!doctype html> 
+   <head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Filter Bing maps pushpins by property - jQuery Bing maps</title>
+		<meta name="description" content="An example of how to filter markers by different criterias using jQuery Bing maps v7 for web and mobile" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Filter Bing maps pushpins by property - jQuery Bing maps" />
+		<meta name="DC.description" content="An example of how to filter markers by different criterias using jQuery Bing maps v7 for web and mobile" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+        <meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="css/960/min/960.css" />
+		<link type="text/css" rel="stylesheet" href="css/960/min/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="css/normalize/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="css/examples.css" />
+		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
+		<script type="text/javascript" src="js/modernizr-2.0.6/modernizr-2.0.6.js"></script>
+    </head>
+    <body>
+		<div class="container_16">
+			<header class="grid_16">
+				<h1 class="title"><a href="/">jQuery Bing maps</a> filter by property example</h1>
+			</header>
+			<article class="grid_16">
+				<div class="item gradient rounded shadow">
+					<div id="map_canvas"></div>
+					<div id="filter_control" class="item gradient rounded shadow">
+						<label for="tags">Filter by tag</label>
+						<select id="tags"></select>
+					</div>
+				</div>
+				<h2>Using jQuery with Bing maps</h2>
+				<p>
+					Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
+					use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
+					<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
+				</p>
+				<div class="prettify item rounded">
+					<code>
+						<span>&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;</span>
+						<span class="even">&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"&gt;&lt;/script&gt;</span>
+						<span>&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.fn.map.js"&gt;&lt;/script&gt;</span>
+					</code>
+				</div>
+				<div class="prettify item rounded">
+					<code>
+						<span>$('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'center': '59.0, 18.0' }).bind('init', function () {</span>
+						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;$('#map_canvas').gmap('addMarker', { 'foo': 'bar', 'location': '59.0, 18.0' });</span>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;$('#map_canvas').gmap('addMarker', { 'foo': 'baz', 'location': '58.0, 18.0' });</span>
+						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;$('#map_canvas').gmap('findMarker', 'foo', 'bar', false, function(marker, isFound) {</span>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;marker.setOptions({'visible': ( isFound ) ? true : false });</span>
+						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;});</span>
+						<span>});</span>
+					</code>
+				</div>
+				<div class="more">
+					<h2>More Bing maps and jQuery examples</h2>
+					<nav>
+						<ul>
+							<li><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+							<li class="sel"><a href="jquery-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
+							<li><a href="jquery-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
+						</ul>
+					</nav>
+				</div>
+				<div id="forum" class="hidden rounded forum">
+					<h2>Forum</h2>
+					<ul id="forum_posts"></ul>
+					<h2>Subscribe</h2>
+					<form id="forum_subscribe" class="subscribe" action="#">
+						<label for="email">E-mail:</label>
+						<input id="email" type="text" name="email" />
+						<input type="submit" name="sub" value="Subscribe" />
+					</form>
+				</div>
+			</article>
+			<footer class="hidden">
+                <div itemscope itemtype="http://data-vocabulary.org/Person">
+                    Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+                </div>
+			</footer>
+		</div>
+		
+		<!-- Start Javascript needed -->
+    	<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+        <script type="text/javascript" src="js/underscore-1.2.2/underscore-min.js"></script>
+		<script type="text/javascript" src="js/backbone-0.5.3/backbone-min.js"></script>
+		<script type="text/javascript" src="js/examples.js"></script>
+		<script type="text/javascript" src="../js/jquery.fn.bmap.js"></script>
+		<!-- End Javascript needed -->
+		
+		
+		<script type="text/javascript">
+            $(function() { try { demo.load.example_2(); } catch(err) { alert(demo.exception); } });
+        </script>
+    
+	</body>
+</html>
