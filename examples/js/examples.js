@@ -1,6 +1,6 @@
 	
 	// Configuration
-	window.demo = { 'credentials': 'Arkh4--7e-cy1ek_QH9oq3qerZut_jOPrR8h8C0Z69RKgE8aUuBe0inLrDWZvacw', 'url': 'qwerty', 'forum': 'http://groups.google.com/group/jquery-ui-map-discuss/feed/rss_v2_0_msgs.xml', 'subscribe': 'http://groups.google.com/group/jquery-ui-map-discuss/boxsubscribe', 'exception': 'Unable to load due to either poor internet connection or some CDN\'s aren\'t as responsive as we would like them to be. Try refreshing the page :D.', 'load': [] };
+	window.demo = { 'credentials': 'Arkh4--7e-cy1ek_QH9oq3qerZut_jOPrR8h8C0Z69RKgE8aUuBe0inLrDWZvacw', 'url': 'jquery-bing-maps.googlecode.com', 'forum': 'http://groups.google.com/group/jquery-ui-map-discuss/feed/rss_v2_0_msgs.xml', 'subscribe': 'http://groups.google.com/group/jquery-ui-map-discuss/boxsubscribe', 'exception': 'Unable to load due to either poor internet connection or some CDN\'s aren\'t as responsive as we would like them to be. Try refreshing the page :D.', 'load': [] };
 	window._gaq = [['_setAccount', 'UA-17614686-5'], ['_trackPageview'], ['_trackPageLoadTime']];
 	
 	// Exceptions
