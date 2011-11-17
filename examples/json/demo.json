@@ -1,0 +1,7 @@
+{ "markers":
+	[
+		{ "latitude": 59.17, "longitude": 18.3, "title": "Stockholm, Sweden", "description": "The capital of Sweden" },
+		{ "latitude": 13.45, "longitude": 100.30, "title":"Bangkok, Thailand", "description": "The capital of Thailand"},
+		{ "latitude": 45.24, "longitude": 75.43, "title":"Ottawa, Ontario, Canada", "description": "The capital of Canada"}
+	]
+}
