@@ -5,7 +5,7 @@ h1 { font-size: 1.6em; }
 h2 { font-size: 1.4em; }
 
 a, a:active, a:hover, a:focus { color: #008595; text-decoration: none; outline: none; }
-
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
 .container_16 { margin-bottom: 2em; }
 .title { margin: 1.5em 0; }
 .hidden { display:none; }
