@@ -44,7 +44,7 @@
 			demo.load = {
 				// Example 1, basic example
 				'example_1': function() {
-					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false}).bind('init', function(ev, map) {
+					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false, 'showBreadcrumb': true, 'enableClickableLogo': false, 'showScalebar': false}).bind('init', function(ev, map) {
 						$('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bounds': true }).click( function() {
 							$('#map_canvas').gmap('openInfoWindow', { 'title': 'Hello World!' }, this);
 						});	
@@ -52,7 +52,7 @@
 				},
 				// Example 2, filter by property
 				'example_2': function() {
-					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false}).bind('init', function(event, map) { 	
+					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false, 'showBreadcrumb': true, 'enableClickableLogo': false, 'showScalebar': false}).bind('init', function(event, map) { 	
 						var bounds = map.getBounds();
 						var southWest = bounds.getSoutheast();
 						var northEast = bounds.getNorthwest();
@@ -100,7 +100,7 @@
 				},
 				// Example 3, load markers with JSON
 				'example_3': function() {
-					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false}).bind('init', function() { 
+					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false, 'showBreadcrumb': true, 'enableClickableLogo': false, 'showScalebar': false}).bind('init', function() { 
 						$('#map_canvas').gmap('addControl', 'earthquake_control', 2);
 						$.getJSON( 'http://api.geonames.org/earthquakesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&username=johansalllarsson', function(response) { 
 							if (!response.status) {
