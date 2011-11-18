@@ -14,7 +14,7 @@
 	
 	function _callback(a, b) {
 		$.getJSON( a, function(c) {
-			if ( c.authenticationResultCode === 'ValidCredentials' && c.resourceSets.length > 0 ) {
+			if ( c.authenticationResultCode === 'ValidCredentials' && c.resourceSets && c.resourceSets.length > 0 && c.resourceSets[0].estimatedTotal > 0 ) {
 				b(c.resourceSets, 'OK');
 			} else {
 				b(null, 'ZERO_RESULTS');
