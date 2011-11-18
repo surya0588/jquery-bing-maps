@@ -36,9 +36,9 @@
 		
 		/**
 		 * Map options
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#MapOptions
+		 * @see http://msdn.microsoft.com/en-us/library/gg427603.aspx
 		 */
-		options: { center: (Microsoft) ? new Microsoft.Maps.Location(0.0, 0.0) : null, zoom: 5	},
+		options: { 'center': (Microsoft) ? new Microsoft.Maps.Location(0.0, 0.0) : null, 'zoom': 5	},
 		
 		/**
 		 * Get or set options
@@ -46,11 +46,10 @@
 		 * @param options:object
 		 */
 		option: function(a, b) {
-			c = this;
 			if (!b) {
-				return c.options[a];
+				return this.options[a];
 			} else {
-				c._u(a, b);
+				this._u(a, b);
 			}
 		},
 		
@@ -71,54 +70,51 @@
 		
 		/**
 		 * Create
-		 * @return $(google.maps.Map)
+		 * @return $(Microsoft.Maps.Map)
 		 */
 		_create: function() {
 			this.options.center = this._latLng(this.options.center);
 			var a = this.element;
 			var b = this.instances[this.id] = { map: new Microsoft.Maps.Map( a[0], this.options ), markers: [], services: [], overlays: [] };
-			var c = this;
+			this._call(this.options.callback, b.map, this);
 			setTimeout( function() { a.trigger('init', b.map); }, 1);
 			return $(b.map);
 		},
 		
 		/**
 		 * Set map options
-		 * @param key:string (optional)
-		 * @param value:object (optional)
+		 * @param key:string
+		 * @param value:object
 		 */
 		_u: function(a, b) {
-			var map = this.get('map');
-			jQuery.extend(this.options, { 'center': map.getCenter(), 'mapTypeId': map.getMapTypeId(), 'zoom': map.getZoom() } );
-			if (a && b) {
-				this.options[a] = b;
-			}
-			map.setOptions(this.options);
+			var c = this.get('map');
+			this.options[a] = b;
+			jQuery.extend(this.options, { 'center': c.getCenter(), 'mapTypeId': c.getMapTypeId(), 'zoom': c.getZoom() } );
+			c.setOptions(this.options);
 		},
 		
 		/**
 		 * Adds a latitude longitude pair to the bounds.
-		 * @param position:google.maps.LatLng/string
+		 * @param Microsoft.Maps.Location/string
 		 */
 		addBounds: function(a) {
-			this.get('bounds', []).push(a);
+			this.get('bounds', []).push(this._latLng(a));
 			if ( this.get('bounds').length > 1 ) {
-				this.get('map').setView({ bounds: Microsoft.Maps.LocationRect.fromLocations(this.get('bounds'))});
+				this.get('map').setView({ 'bounds': Microsoft.Maps.LocationRect.fromLocations(this.get('bounds'))});
 			} else {
-				this.get('map').setView({ zoom: this.get('map').getZoomRange().max, center: this.get('bounds')[0] })
+				this.get('map').setView({ 'zoom': this.get('map').getZoomRange().max, 'center': this.get('bounds')[0] })
 			}
 		},
 		
 		/**
 		 * Adds a custom control to the map
 		 * @param panel:jquery/node/string	
-		 * @param position:google.maps.ControlPosition	 
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#ControlPosition
+		 * @param position:int	 
 		 */
 		addControl: function(a, b) {
 			var node = $(this._unwrap(a));
 			var map = this.get('map');
-			var css = {'position':'absolute', 'z-index': 99999 };
+			var css = {'position': 'absolute', 'z-index': 99999 };
 			if ( b < 3 ) {
 				css.top = 0;
 			} else if ( b > 2 && b < 6 ) {
@@ -140,20 +136,19 @@
 		
 		/**
 		 * Adds a Marker to the map
-		 * @param markerOptions:google.maps.MarkerOptions (optional)
-		 * @param callback:function(map:google.maps.Map, marker:google.maps.Marker) (optional)
-		 * @param marker:function (optional)
-		 * @return $(google.maps.Marker)
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#MarkerOptions
+		 * @param pushpinOptions:Microsoft.Maps.PushpinOptions (optional)
+		 * @param callback:function(Microsoft.Maps.Map, Microsoft.Maps.Pushpin) (optional)
+		 * @param Pushpin:Microsoft.Maps.Pushpin (optional)
+		 * @return $(Microsoft.Maps.Pushpin)
+		 * @see http://msdn.microsoft.com/en-us/library/gg427629.aspx
 		 */
 		addMarker: function(a, b, c) {
 			var d = this.get('map');
 			var c = c || Microsoft.Maps.Pushpin;
 			a = (this._convert) ? this._convert('addMarker', a) : a;
 			a.location = this._latLng(a.location);
-			//console.log(a);
 			var e = new c(a.location, a);
-			for(prop in a) {
+			for ( prop in a ) {
 				e[prop] = a[prop];
 			}
 			var f = this.get('markers', []);
@@ -171,24 +166,25 @@
 		},
 		
 		/**
-		 * Adds an InfoWindow to the map
-		 * @param infoWindowOptions:google.maps.InfoWindowOptions (optional)
-		 * @param callback:function(InfoWindow:google.maps.InfoWindowOptions) (optional)
-		 * @return $(google.maps.InfoWindowOptions)
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#InfoWindowOptions
+		 * Adds an Infobox to the map
+		 * @param infoboxOptions:Microsoft.Maps.InfoboxOptions
+		 * @param pushpin:Microsoft.Maps.Pushpin
+		 * @param callback:function(Microsoft.Maps.Infobox) (optional)
+		 * @return $(Microsoft.Maps.Infobox)
+		 * @see http://msdn.microsoft.com/en-us/library/gg675210.aspx
 		 */
-		addInfoWindow: function(a, b) {
-			var c = new Microsoft.Maps.Infobox(b.getLocation(), a); 
-			this._call(b, c);
-			this.get('map > entities').push(c);
-			return $(c);
+		addInfoWindow: function(a, b, c) {
+			var d = new Microsoft.Maps.Infobox(b.getLocation(), a); 
+			this.get('map > entities').push(d);
+			this._call(c, d);
+			return $(d);
 		},
 		
 		/**
 		 * Triggers an InfoWindow to open
-		 * @param infoWindowOptions:google.maps.InfoWindowOptions
-		 * @param marker:google.maps.Marker (optional)
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#InfoWindowOptions
+		 * @param infoboxOptions:Microsoft.Maps.InfoboxOptions
+		 * @param pushpin:Microsoft.Maps.Pushpin (optional)
+		 * @see http://msdn.microsoft.com/en-us/library/gg675210.aspx
 		 */
 		openInfoWindow: function(a, b) {
 			var self = this;
@@ -236,9 +232,7 @@
 			for ( b in a ) {
 				if ( a[b] instanceof Microsoft.Maps.Pushpin || a[b] instanceof Microsoft.Maps.Infobox || a[b] instanceof Microsoft.Maps.Map ) {
 					Microsoft.Maps.Events.removeHandler(a[b]);
-					//if ( a === 'markers' ) {
-						this.get('map > entities').remove(a[b]);
-					//}
+					this.get('map > entities').remove(a[b]);
 				} else if ( a[b] instanceof Array ) {
 					this._c(a[b]);
 				}
@@ -259,6 +253,32 @@
 				var g = ( c && e[f][a] ) ? ( e[f][a].split(c).indexOf(b) > -1 ) : ( e[f][a] === b );
 				this._call(d, e[f], g);
 			};
+		},
+		
+		/**
+		 * Loads the specified registered module, making its functionality available. An optional function can be specified that is called when the module is loaded.
+		 * The following Bing Maps modules are available: Microsoft.Maps.Directions, Microsoft.Maps.Traffic, Microsoft.Maps.VenueMaps 
+		 * @param key:string
+		 * @param callback:function(?) (optional)
+		 * @param callback:function() (optional) - if the module is loaded
+		 */
+		load: function(a, b, c) {
+            if ( !Microsoft.Maps.moduleLoaded(a) ) {
+				Microsoft.Maps.loadModule(a, b);
+			} else {
+				if (c) { c(); }
+			}
+		},
+		
+		/**
+		 * Registers a module with the map control. The name of the module is specified in key, the module script is defined in scriptUrl, and the options provides the location of a *.css file to load with the module.
+		 * Once you have registered a module, you can make its functionality available by loading it using load. 
+		 * @param key:string
+		 * @param url:string
+		 * @param options:{styleURLs} (optional)
+		 */
+		register: function(a, b, c) {
+			Microsoft.Maps.registerModule(a, b, c);
 		},
 
 		/**
@@ -299,14 +319,6 @@
 		},
 		
 		/**
-		 * Refreshes the map
-		 */
-		/*refresh: function() {
-			$(this.get('map')).triggerEvent('resize');
-			this._update();
-		},*/
-		
-		/**
 		 * Destroys the plugin.
 		 */
 		destroy: function() {
@@ -331,7 +343,7 @@
 		},
 		
 		/**
-		 * Helper method for google.maps.Latlng
+		 * Helper method for Microsoft.Maps.Location
 		 * @param callback
 		 */
 		_latLng: function(a) {
@@ -396,10 +408,8 @@
 
 		addEventListener: function(a, b) {
 			if ( this[0] instanceof Microsoft.Maps.Pushpin || this[0] instanceof Microsoft.Maps.Infobox || this[0] instanceof Microsoft.Maps.Map ) {
-				//console.log('add handler');
 				Microsoft.Maps.Events.addHandler(this[0], a, b);
 			} else {
-				//console.log('this is bound');
 				this.bind(a, b);	
 			}
 			return this;

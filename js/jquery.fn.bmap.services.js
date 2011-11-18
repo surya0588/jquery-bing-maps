@@ -44,7 +44,7 @@
 			_callback( DIRECTIONS_URL.replace('{0}', a.start).replace('{1}', a.end).replace('{2}', this.options.credentials), b);
 		},
 		
-		displayDirections: function(a,b,c) {
+		displayDirections: function(a, b, c) {
 			var self =this;
 			var d = function() {
 				var d = self.get('services > DirectionsManager', new Microsoft.Maps.Directions.DirectionsManager(self.get('map')));
@@ -57,11 +57,7 @@
 				d.setRenderOptions(c);
 				d.calculateDirections();
 			}
-			if ( !this.get('services > DirectionsManager') ) {
-				Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: d });
-			} else {
-				d();
-			}
+			this.load('Microsoft.Maps.Directions', { 'callback': d }, d);
 		}
 
 	
