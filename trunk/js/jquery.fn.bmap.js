@@ -13,22 +13,32 @@
 	 * @param base:object
 	 */
 	$.a = function( a, b, c ) {
-		var d = [];
 		$[a] = $[a] || {};
-		$[a][b] = function(options, element) {
+		$[a][b] = function(h, i) {
 			if ( arguments.length ) {
-				this._s(options, element);
+				this._s(h, i);
 			}
 		};
 		$[a][b].prototype = c;
-		$.fn[b] = function(options) {
-			var id = this.attr('id');
-			if ( d[id] && d[id][options] ) {
-				return d[id][options].apply(d[id], Array.prototype.slice.call(arguments, 1));
-			} else if ( typeof options === 'object' || ! options ) {
-				d[id] = new $[a][b](options, this);
-				return this;
-			}  
+		$.fn[b] = function(d) {
+			var e = this, f = Array.prototype.slice.call(arguments, 1), g = typeof d === 'string';
+			if ( g && d.substring( 0, 1 ) === "_" ) {
+                return e;
+            }
+			if ( g ) {
+				this.each(function() {
+					var h = $.data(this, b);
+					e = $.data(this, b)[d].apply(h, f);
+				});
+			} else {
+				this.each(function() {
+					var h = $.data(this, b);
+					if ( !h ) {
+						$.data( this, b, new $[a][b](d, this) );
+					}
+				});
+			} 
+			return e;
 		};
 	};
 	
@@ -56,11 +66,11 @@
 		/**
 		 * Setup plugin basics, 
 		 * Set the jQuery UI Widget this.element, so extensions will work on both plugins
+		 * @param options:object
+		 * @param element:object
 		 */
-		_s: function( a, b ) {
-			this.id = b.attr('id');
-			this.instances = [];
-			this.element = b;
+		_s: function(a, b) {
+			this.el = $(b);
 			this.options = jQuery.extend(this.options, a);
 			this._create();
 			if ( this._init ) {
@@ -70,15 +80,12 @@
 		
 		/**
 		 * Create
-		 * @return $(Microsoft.Maps.Map)
 		 */
 		_create: function() {
 			this.options.center = this._latLng(this.options.center);
-			var a = this.element;
-			var b = this.instances[this.id] = { map: new Microsoft.Maps.Map( a[0], this.options ), markers: [], services: [], overlays: [] };
-			this._call(this.options.callback, b.map, this);
-			setTimeout( function() { a.trigger('init', b.map); }, 1);
-			return $(b.map);
+			var a = this.instance = { el: this.el, map: new Microsoft.Maps.Map( this.el[0], this.options ), markers: [], services: [], overlays: [] };
+			this._call(this.options.callback, a.map);
+			setTimeout( function() { a.el.trigger('init', a.map); }, 1);
 		},
 		
 		/**
@@ -242,16 +249,16 @@
 		
 		/**
 		 * Returns the marker(s) with a specific property and value, e.g. 'category', 'tags'
-		 * @param property:string the property to search within
-		 * @param value:string
-		 * @param delimiter:string/boolean	a delimiter if it's multi-valued otherwise false
-		 * @param callback:function(marker:google.maps.Marker, isFound:boolean)
+		 * @param options:object:
+		 * 	property:string	the property to search within
+		 * 	value:string/array
+		 * 	delimiter:string/boolean	a delimiter if it's multi-valued otherwise false
+		 * @param callback:function(Microsoft.Maps.Pushpin, boolean)
 		 */
-		findMarker: function(a, b, c, d) {
-			var e = this.get('markers');
-			for ( f in e ) {
-				var g = ( c && e[f][a] ) ? ( e[f][a].split(c).indexOf(b) > -1 ) : ( e[f][a] === b );
-				this._call(d, e[f], g);
+		findMarker: function(a, b) {
+			var c = this.get('markers');
+			for ( d in c ) {
+				b(c[d], (( a.delimiter && c[d][a.property] ) ? ( c[d][a.property].split(a.delimiter).indexOf(a.value) > -1 ) : ( c[d][a.property] === a.value )));
 			};
 		},
 		
@@ -287,7 +294,7 @@
 		 * @param value:object(optional)
 		 */
 		get: function(a, b) {
-			var c = this.instances[this.id];
+			var c = this.instance;
 			if (!c[a]) {
 				if ( a.indexOf('>') > -1 ) {
 					var e = a.replace(/ /g, '').split('>');
@@ -315,7 +322,7 @@
 		 * @param value:object
 		 */
 		set: function(a, b) {
-			this.instances[this.id][a] = b;
+			this.instance[a] = b;
 		},
 		
 		/**
@@ -325,7 +332,7 @@
 			this.clear('markers');
 			this.clear('services');
 			this.clear('overlays'); 
-			var a = this.instances[this.id];
+			var a = this.instance;
 			a.map.dispose();
 			for ( b in a ) {
 				a[b] = null;

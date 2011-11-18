@@ -116,6 +116,42 @@
 							}
 						});
 					});
+				},
+				// Example 4, multiple markers 
+				'example_4': function() {
+					$('.map').gmap({'credentials': demo.credentials, 'enableSearchLogo': false, 'showBreadcrumb': true, 'enableClickableLogo': false, 'showScalebar': false, 'callback': function(map) {
+						var self = this;
+						self.addMarker({ 'location': new Microsoft.Maps.Location((Math.random()*100), (Math.random()*100)), 'bounds': true }).click( function() {
+							self.openInfoWindow({ 'title': 'Some title...', 'description': 'Some description...' }, this);
+						});
+					}});
+				},
+				// Example 5, Geocoding search 
+				'example_5': function() {
+					$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false, 'showDashboard': false, 'enableClickableLogo': false, 'showScalebar': false, 'callback': function(map) {
+						var self = this;
+						$('#search_query').keypress( function(event) {
+							if ( $(this).val() != '' && event.which == 13 ) {
+								var width = parseInt(self.get('width', $('#map_canvas').css('width')));
+								self.clear('markers');
+								self.search({ 'query': $(this).val() }, function(result, status) { 
+									var html = '';
+									if ( status === 'OK' ) {
+										$('#map_canvas').animate({ 'width': width-320 }, { 'duration': 250 });
+										$('#search_result').animate({ 'width': 320 }, { 'duration': 250 });
+										$.each(result[0].resources, function(i, item) {
+											self.addMarker({ 'location': new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]), 'bounds': true });
+											html += '<div class="'+( (i%2) ? 'odd' : 'even' )+'"><p><strong>'+item.address.formattedAddress+'</strong> ('+item.address.countryRegion+')</p></div>';
+										});
+									} else {
+										$('#map_canvas').animate({ 'width': '100%' }, { 'duration': 250 });
+										$('#search_result').animate({ 'width': 0 }, { 'duration': 250 });
+									}
+									$('#search_result').html(html);
+								});
+							}
+						});
+					}});
 				}
 			}
 		});
