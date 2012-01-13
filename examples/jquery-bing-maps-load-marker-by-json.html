@@ -11,91 +11,135 @@
 		<meta name="DC.description" content="An example of how to load markers with JSON using Bing maps v7 for web and mobile devices">
 		<meta name="DC.creator" content="Johan Säll Larsson">
         <meta name="DC.language" content="en">
-		<link type="text/css" rel="stylesheet" href="css/960/min/960.css" />
-		<link type="text/css" rel="stylesheet" href="css/960/min/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="css/960/960.css" />
+		<link type="text/css" rel="stylesheet" href="css/960/960_16_col.css" />
 		<link type="text/css" rel="stylesheet" href="css/normalize/normalize.css" />
-		<link type="text/css" rel="stylesheet" href="css/examples.css" />
+		<link type="text/css" rel="stylesheet" href="css/prettify/prettify.css" />
+		<link type="text/css" rel="stylesheet" href="css/demo.css" />
 		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
-		<script type="text/javascript" src="js/modernizr-2.0.6/modernizr-2.0.6.js"></script>
+		<script type="text/javascript" src="js/modernizr-2.0.6/modernizr.min.js"></script>
     </head>
     <body>
+		<header class="dark">
+			<div class="container_16">
+				<h1><a href="/">jQuery Bing maps <span id="version"></span></a> using JSON example</h1>
+			</div>
+		</header>
 		<div class="container_16">
-			<header class="grid_16">
-				<h1 class="title"><a href="/">jQuery Bing maps</a> using JSON example</h1>
-			</header>
 			<article class="grid_16">
-				<div class="item gradient rounded shadow">
+				<div class="item rounded dark">
 					<div id="map_canvas"></div>
 				</div>
 				<div id="earthquake_control" class="hidden sidebar rounded">
 					<h3>List of earthquakes</h3>
 					<div id="earthquakes"></div>
 				</div>
-				<h2>Using jQuery with Bing maps</h2>
-				<p>
-					Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
-					use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
-					<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
-				</p>
-				<div class="prettify item rounded">
-					<code>
-						<span>&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;</span>
-						<span class="even">&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"&gt;&lt;/script&gt;</span>
-						<span>&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.fn.map.js"&gt;&lt;/script&gt;</span>
-					</code>
-				</div>
-				<div class="prettify item rounded">
-					<code>
-						<span>$('#map_canvas').gmap({'credentials': demo.credentials, 'enableSearchLogo': false}).bind('init', function() {</span>
-						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;$.getJSON( YOUR_URL, function(response) {</span>
-						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$.each( response.SOME_ARRAY, function(i, obj) {</span>
-						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(obj.lat, obj.lng), 'bounds': true } )</span>
-						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.click(function() {</span>
-						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$('#map_canvas').gmap('openInfoWindow', { 'title': 'GET THE PROPERTY BY this.target.YOUR_PROPERTY' }, this);</span>
-						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</span>
-						<span class="even">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});</span>
-						<span>&nbsp;&nbsp;&nbsp;&nbsp;});</span>
-						<span class="even">});</span>
-					</code>
-				</div>
-				<div class="more">
-					<h2>More Bing maps and jQuery examples</h2>
-					<nav>
-						<ul>
-							<li><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
-							<li><a href="jquery-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
-							<li class="sel"><a href="jquery-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
-							<li><a href="jquery-bing-maps-multiple-maps.html">Show multiple Bing maps without specifying an id</a></li>
-							<li><a href="jquery-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
-						</ul>
-					</nav>
-				</div>
-				<div id="forum" class="hidden rounded forum">
-					<h2>Forum</h2>
-					<ul id="forum_posts"></ul>
-					<h2>Subscribe</h2>
-					<form id="forum_subscribe" class="subscribe" action="#">
-						<label for="email">E-mail:</label>
-						<input id="email" type="text" name="email" />
-						<input type="submit" name="sub" value="Subscribe" />
-					</form>
+				<div class="content rounded light shadow">
+					<h2>Using jQuery with Bing maps</h2>
+					<p>
+						Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
+						use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
+						<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
+					</p>
+<pre class="prettyprint rounded">
+&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.fn.map.js"&gt;&lt;/script&gt;</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'enableSearchLogo': false}).bind('init', function() {
+	$.getJSON( YOUR_URL, function(response) {
+		$.each( response.SOME_ARRAY, function(i, obj) {
+			var location = new Microsoft.Maps.Location(obj.lat, obj.lng);
+			$('#map_canvas').gmap('addMarker', { 'location': location, 'bounds': true } )
+			.click(function() {
+				$('#map_canvas').gmap('openInfoWindow', { 
+					'title': 'GET THE PROPERTY BY this.target.YOUR_PROPERTY' 
+				}, this);
+			});
+		});
+	});
+});</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'enableSearchLogo': false, 'callback': function() {
+	var self = this;
+	$.getJSON( YOUR_URL, function(response) {
+		$.each( response.SOME_ARRAY, function(i, obj) {
+			var location = new Microsoft.Maps.Location(obj.lat, obj.lng);
+			self.addMarker({ 'location': location, 'bounds': true } )
+			.click(function() {
+				self.openInfoWindow({ 
+					'title': 'GET THE PROPERTY BY this.target.YOUR_PROPERTY' 
+				}, this);
+			});
+		});
+	});
+}});</pre>
+
+<pre class="prettyprint rounded">
+$.getJSON( YOUR_URL, function(response) {
+	$.each( response.SOME_ARRAY, function(i, obj) {
+		var location = new Microsoft.Maps.Location(obj.lat, obj.lng);
+		$('#map_canvas').gmap('addMarker', { 'location': location, 'bounds': true } )
+		.click(function() {
+			$('#map_canvas').gmap('openInfoWindow', { 
+				'title': 'GET THE PROPERTY BY this.target.YOUR_PROPERTY' 
+			}, this);
+		});
+	});
+});</pre>
+	
 				</div>
 			</article>
-			<footer class="hidden">
-                <div itemscope itemtype="http://data-vocabulary.org/Person">
-                    Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
-                </div>
-			</footer>
 		</div>
-
-    	<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+		<footer class="dark">
+			<div class="container_16">
+				<div class="grid_8 more">
+					<h2>More Bing maps and jQuery examples</h2>
+					<ul>
+						<li><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jquery-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
+						<li class="sel buttonize"><a href="jquery-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
+						<li><a href="jquery-bing-maps-multiple-maps.html">Show multiple Bing maps without specifying an id</a></li>
+						<li><a href="jquery-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
+					</ul>
+				</div>
+				<div id="forum" class="hidden rounded forum grid_8"></div>
+				<div class="grid_16" itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+		</footer>
+		<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="js/underscore-1.2.2/underscore-min.js"></script>
 		<script type="text/javascript" src="js/backbone-0.5.3/backbone-min.js"></script>
-		<script type="text/javascript" src="js/examples.js"></script>
+		<script type="text/javascript" src="js/prettify/prettify.min.js"></script>
+		<script type="text/javascript" src="js/demo.js"></script>
 		<script type="text/javascript" src="../js/jquery.fn.bmap.js"></script>
 		<script type="text/javascript">
-            $(function() { try { demo.load.example_3(); } catch(err) { alert(demo.exception); } });
+            $(function() { 
+				demo.add(function() {
+					$('#map_canvas').gmap(jQuery.extend({'callback': function() {
+						var self = this;
+						self.addControl('earthquake_control', 2);
+						$.getJSON( 'http://api.geonames.org/earthquakesJSON?north=44.1&south=-9.9&east=-22.4&west=55.2&username=johansalllarsson', function(response) { 
+							if (!response.status) {
+								$('#earthquake_control').show();
+								$.each( response.earthquakes, function(i, obj) {
+									$('#earthquakes').append('<li>Magnitude: {0}</li>'.format(obj.magnitude));
+									$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(obj.lat, obj.lng), 'bounds': true, 'datetime': obj.datetime, 'magnitude': obj.magnitude, 'source': obj.src } ).click(function() {
+										$('#map_canvas').gmap('openInfoWindow', { 'title': this.target.datetime, 'description': 'Magnitude: {0}, source: {1}'.format(this.target.magnitude, this.target.source)  }, this);
+									});
+								});
+							} else {
+								alert(response.status.message);
+							}
+						});
+					}}, demo.mapOptions));
+				}).load();
+			});
         </script>
     
 	</body>
