@@ -115,7 +115,7 @@
 		addControl: function(element, position) {
 			var map = this.get('map');
 			var node = $(this._unwrap(element));
-			var css = {'position': 'absolute', 'z-index': 99999 };
+			var css = {'position': 'absolute', 'z-index': 10 };
 			if ( position < 3 ) {
 				css.top = 0;
 			} else if ( position > 2 && position < 6 ) {
