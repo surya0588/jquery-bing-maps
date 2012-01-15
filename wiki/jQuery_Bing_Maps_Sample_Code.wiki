@@ -1,0 +1,153 @@
+#summary Sample code
+
+= Version 1.0 =
+
+== Example constructor call ==
+
+Make the selected element a Bing map.
+
+{{{
+$('#map_canvas').gmap();
+}}}
+
+[http://msdn.microsoft.com/en-us/library/gg427603.aspx Map options] are added in the constructor or set with the option method
+
+{{{
+$('#map_canvas').gmap({ 'center': '42.345573,-71.098326' });
+}}}
+
+The map options is extended with a callback function which will execute when the Bing Map object has been instanciated.
+
+{{{
+$('#map_canvas').gmap({ 'callback': function(map) {
+	// The keyword 'this' refers to the plugin object itself. Which means you can execute shorthand code; e.g. this.addMarker({...});  
+	// do something
+}});
+}}}
+
+When the map is initialized it will trigger the 'init' event.
+
+{{{
+$('#map_canvas').gmap().bind('init', function(event, map) { 
+	// do something																									  
+});
+}}}
+
+All properties in the [http://msdn.microsoft.com/en-us/library/gg427603.aspx MapOption] object can be set and retrieved by the "option" method
+
+Get e.g. the zoom
+{{{
+var zoom = $('#map_canvas').gmap('option', 'zoom');
+}}}
+
+Set e.g. the zoom
+{{{
+$('#map_canvas').gmap('option', 'zoom', 7);
+}}}
+
+== Example add custom control ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addControl', 'control', 0);																										  
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	this.addControl('control', 0);	
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('addControl', 'control', 0);
+}}}
+
+== Example add marker ==
+
+The position can be set with a string representation of a latitude/longitude ('xx.xx,xx.xx') or with a Microsoft.Maps.Location().
+If you set the property bounds to true the map will calculate the viewport and zoom automagically, overriding any zoom set in the contructor.
+If a property 'id' is added to the addMarker method the marker will be retrievable by it's id with the 'get' method.
+
+{{{
+$('#map_canvas').gmap().bind('init', function(evt, map) { 
+	$('#map_canvas').gmap('addMarker', { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );																										  
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	this.addMarker( { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );																										  
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('addMarker', { /*id:'m_1',*/ 'location': '42.345573,-71.098326', 'bounds': true } );
+}}}
+
+== Example InfoWindow ==
+
+Showing an InfoWindow on a click event, use 'title' and 'description' as properties for the info window if you
+don't want to add HTML content.
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addMarker', { 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+		$('#map_canvas').gmap('openInfoWindow', { 'htmlContent': 'HTML_IN_INFOWINDOW' }, this);
+	});                                                                                                                                                                                                                               
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	var self = this;
+	self.addMarker({ 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+		self.openInfoWindow({ 'htmlContent': 'TEXT_AND_HTML_IN_INFOWINDOW' }, this);
+	});                                                                                                                                                                                                                               
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('addMarker', { 'location':  '42.345573,-71.098326', 'bounds': true }).click(function() {
+	$('#map_canvas').gmap('openInfoWindow', { 'htmlContent': 'TEXT_AND_HTML_IN_INFOWINDOW' }, this);
+});
+}}}
+
+== Example add markers with JSON ==
+
+Example JSON response
+
+{{{
+{"markers":[
+	{ "latitude":0.0, "longitude":0.0 }
+]}
+}}}
+
+{{{
+$('#map_canvas').gmap().bind('init', function(evt, map) { 
+	$.getJSON( 'URL_TO_JSON', function(data) { 
+		$.each( data.markers, function(i, m) {
+			$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+		});
+	});																											  
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	var self = this;
+	$.getJSON( 'URL_TO_JSON', function(data) { 
+		$.each( data.markers, function(i, m) {
+			self.addMarker( { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+		});
+	});																											  
+}});
+}}}
+
+{{{
+$.getJSON( 'URL_TO_JSON', function(data) { 
+	$.each( data.markers, function(i, m) {
+		$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(m.latitude, m.longitude), 'bounds':true } );
+	});
+});																											  
+}}}
