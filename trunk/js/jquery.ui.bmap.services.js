@@ -28,12 +28,10 @@
 		
 		/**
 		 * A service for converting between an address and a LatLng.
-		 * @param geocoderRequest:google.maps.GeocoderRequest
-		 * @param callback:function(result:google.maps.GeocoderResult, status:google.maps.GeocoderStatus), 
-		 * @see http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#GeocoderResult
 		 */
 		search: function(a, b) {
-			_callback( GEOCODE_URL.replace('{0}', a.query).replace('{1}', this.options.credentials), b);
+			var q = ( typeof a.query === 'string' ) ? a.query : ( a.query.latitude + ','+ a.query.longitude );
+			_callback( GEOCODE_URL.replace('{0}', q).replace('{1}', this.options.credentials), b);
 		},
 		
 		/** 
@@ -57,7 +55,11 @@
 				d.setRenderOptions(c);
 				d.calculateDirections();
 			}
-			this.load('Microsoft.Maps.Directions', { 'callback': d }, d);
+			if ( !self.get('services > DirectionsManager') ) {
+				Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: d });
+			} else {
+				d();
+			}
 		}
 
 	

@@ -23,8 +23,11 @@
 		<script type="text/javascript" src="js/jquery-mobile-1.0/jquery.mobile.min.js"></script>
 		<script type="text/javascript" src="js/demo.js"></script>
 		<script type="text/javascript" src="../js/jquery.ui.bmap.js"></script>
+		<script type="text/javascript" src="../js/jquery.ui.bmap.services.js"></script>
+		<script type="text/javascript" src="../js/jquery.ui.bmap.extensions.js"></script>
 		<script type="text/javascript">
             $(function() { 
+				
 				$('#basic_map').live('pageinit', function() {				
 					demo.add('basic_map', function() {
 						$('#map_canvas').gmap(jQuery.extend({'callback': function() {
@@ -35,6 +38,35 @@
 						}}, demo.mapOptions));
 					}).load('basic_map');
 				});
+				
+				$('#directions_map').live('pagecreate', function() {
+					demo.add('directions_map', function() {
+						$('#map_canvas_1').gmap(jQuery.extend({'callback': function() {
+							var self = this;
+							self.set('getCurrentPosition', function() {
+								self.getCurrentPosition( function(position, status) {
+									if ( status === 'OK' ) {
+										var location = new Microsoft.Maps.Location(position.coords.latitude, position.coords.longitude)
+										self.get('map').setView({'center':location});
+										self.search({ 'query': location }, function(results, status) {
+											if ( status === 'OK' ) {
+												$('#from').val(results[0].resources[0].address.formattedAddress);
+											}
+										});
+									} else {
+										alert('Unable to get current position');
+									}
+								}, { 'timeout': 10000, 'enableHighAccuracy': true });
+							});
+							self.get('getCurrentPosition')();
+							$('#submit').click(function() {
+								self.displayDirections({ 'address': $('#from').val() }, { 'address': $('#to').val() }, { itineraryContainer: document.getElementById('directions') });
+								return false;
+							});
+						}}, demo.mapOptions));
+					}).load('directions_map');
+				});
+				
 			});
         </script>
     </head>
@@ -46,7 +78,8 @@
 			<div data-role="content">					
 				<h2>jQuery mobile examples</h2>
 				<ul data-role="listview" data-inset="true" data-theme="c" data-dividertheme="a"> 
-					<li><a href="#basic_map">Basic map example</a></li> 
+					<li><a href="#basic_map">Basic map example</a></li>
+					<li><a href="#directions_map">Get directions example</a></li> 
 				</ul>
 				
 				<h2>More Bing maps and jQuery examples</h2>
@@ -74,7 +107,7 @@
 		
 		<div id="basic_map" data-role="page">
 			<div data-role="header">
-				<h1><a data-ajax="false" href="/">jQuery mobile with Bing maps v7</a> examples</h1>
+				<h1><a data-ajax="false" href="/">jQuery mobile with Bing maps v7</a></h1>
 				<a data-rel="back">Back</a>
 			</div>
 			<div data-role="content">	
@@ -83,6 +116,30 @@
 				</div>
 			</div>
 		</div>		
-				
+		
+		<div id="directions_map" data-role="page">
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jQuery mobile with Bing maps v7</a></h1>
+				<a data-rel="back">Back</a>
+			</div>
+			<div data-role="content">	
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas_1" style="height:300px;position:relative;"></div>
+					<p>
+						<label for="from">From</label>
+						<input id="from" class="ui-bar-c" type="text" value="G&ouml;teborg, Sweden" />
+					</p>
+					<p>
+						<label for="to">To</label>
+						<input id="to" class="ui-bar-c" type="text" value="Stockholm, Sweden" />
+					</p>
+					<a id="submit" href="#" data-role="button" data-icon="search">Get directions</a>
+				</div>
+				<div id="results" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+					<div id="directions"></div>
+				</div>
+			</div>
+		</div>
+		
 	</body>
 </html>
