@@ -253,7 +253,7 @@
 		 * 	property:string	the property to search within
 		 * 	value:string
 		 * 	delimiter:string (optional)
-		 * @param callback:function(marker:google.maps.Marker, isFound:boolean)
+		 * @param callback:function(Microsoft.Maps.Pushpin, isFound:boolean)
 		 */
 		find: function(context, options, callback) {
 			var ctx = this.get(context);
@@ -268,12 +268,12 @@
 		 * Loads the specified registered module, making its functionality available. An optional function can be specified that is called when the module is loaded.
 		 * The following Bing Maps modules are available: Microsoft.Maps.Directions, Microsoft.Maps.Traffic, Microsoft.Maps.VenueMaps 
 		 * @param key:string
-		 * @param callback:function(?) (optional)
+		 * @param options (optional)
 		 * @param isLoadedCallback:function() (optional) - if the module is loaded
 		 */
-		load: function(key, callback, isLoadedCallback) {
+		load: function(key, options, isLoadedCallback) {
             if ( !Microsoft.Maps.moduleLoaded(key) ) {
-				Microsoft.Maps.loadModule(key, callback);
+				Microsoft.Maps.loadModule(key, options);
 			} else {
 				if (isLoadedCallback) { isLoadedCallback(); }
 			}
