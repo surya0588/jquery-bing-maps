@@ -34,7 +34,7 @@ To add a map just add
 <script type="text/javascript">
 	$(function() {
 		// Also works with: var yourStartLatLng = '59.3426606750, 18.0736160278';
-		var yourStartLatLng = new google.maps.LatLng(59.3426606750, 18.0736160278);
+		var yourStartLatLng = new Microsoft.Maps.Location(59.3426606750, 18.0736160278);
 		$('#map_canvas').gmap({'credentials': YOUR_BING_MAPS_CREDENTIALS, 'center': yourStartLatLng});
 	});
 </script>
@@ -88,7 +88,7 @@ This is how you create a new method in the extension file
 } (jQuery) );
 }}}
 
-Or do something during the widget initialization. This will geocode the address option property and call the option callback property. 
+Or do something during the widget initialization. This will geocode the address option property and on success call the geoCallback property. 
 
 {{{
 ( function($) {
@@ -99,10 +99,10 @@ Or do something during the widget initialization. This will geocode the address 
 		_init: function() {
 			var self = this;
 			// If you add the property option address in the constructor it will be geocoded 
-			if ( this.options.address && this.options.callback ) {
+			if ( this.options.address && this.options.geoCallback ) {
 				this.search({'address': this.options.address}, function(results, status) {
 					if ( status === 'OK' ) {
-						self._call(self.options.callback, results, status);
+						self._call(self.options.geoCallback, results, status);
 					}
 				});
 			}
