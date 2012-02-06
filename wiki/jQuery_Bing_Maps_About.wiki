@@ -1,4 +1,4 @@
-#About jQuery Bing Maps
+#Summary About jQuery Bing Maps
 
 = jQuery Bing Maps =
 
