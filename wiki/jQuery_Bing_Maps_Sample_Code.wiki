@@ -151,3 +151,339 @@ $.getJSON( 'URL_TO_JSON', function(data) {
 	});
 });																											  
 }}}
+
+== Example loadDirections ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function(evt, map) { 
+	$('#map_canvas').gmap('loadDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA' }, function(result, status) {
+		if ( status === 'OK' ) {
+			alert('Results found!');
+		}
+	});																											  
+});
+}}}
+
+== Example displayDirections ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function(evt, map) { 
+	$('#map_canvas').gmap('displayDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() { 
+	this.displayDirections({ 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('displayDirections', { 'origin': 'Los Angeles, USA', 'destination': 'New York, USA', 'routeMode': Microsoft.Maps.Directions.RouteMode.driving }, { 'panel': document.getElementById('panel') } );																											  
+}}}
+
+== Example filter tags, categories, etc with find ==
+
+Find an object by searching a single property with a single value.
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addMarker', { 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+	$('#map_canvas').gmap('find', 'markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	this.addMarker({ 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+	this.find('markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+}});
+}}}
+
+{{{ 
+$('#map_canvas').gmap('addMarker', { 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
+$('#map_canvas').gmap('find', 'markers', { 'property': 'tags', 'value': 'foo' }, function(marker, isFound) {
+	marker.setOptions({ 'visible': isFound });
+});
+}}}
+
+Find an object by searching a single property with multiple values.
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addMarker', { 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+	$('#map_canvas').gmap('find', 'markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	this.addMarker({ 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+	this.find('markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+		marker.setOptions({ 'visible': isFound });
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('addMarker', { 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
+$('#map_canvas').gmap('find', 'markers', { 'property': 'tags', 'value': 'foo', 'delimiter': ', '}, function(marker, isFound) {
+	marker.setOptions({ 'visible': isFound });
+});
+}}}
+
+== Example RDFa ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('rdfa', 'v:Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() { 
+	var self = this;
+	self.rdfa('v:Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('rdfa', 'v:Event', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude;
+	var lng = result.location[0].geo[0].longitude;
+	$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+}}}
+
+== Example Microdata ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() { 
+	var self = this;
+	self.microdata('http://data-vocabulary.org/Event', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude;
+		var lng = result.location[0].geo[0].longitude;
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('microdata', 'http://data-vocabulary.org/Event', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude;
+	var lng = result.location[0].geo[0].longitude;
+	$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+}}}
+
+== Example Microformat ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('microformat', '.vevent', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude['value-title'];
+		var lng = result.location[0].geo[0].longitude['value-title'];
+		$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() { 
+	var self = this;
+	self.microformat('.vevent', function(result, item, index) {
+		var lat = result.location[0].geo[0].latitude['value-title'];
+		var lng = result.location[0].geo[0].longitude['value-title'];
+		self.addMarker({ 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('microformat', '.vevent', function(result, item, index) {
+	var lat = result.location[0].geo[0].latitude['value-title'];
+	var lng = result.location[0].geo[0].longitude['value-title'];
+	$('#map_canvas').gmap('addMarker', { 'location': new Microsoft.Maps.Location(lat, lng), 'bounds': true });
+});
+}}}
+
+
+== Example Polygon/Polyline/Rectangle/Circle ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {  
+	$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+}}}
+
+== Search ==
+
+{{{
+$('#map_canvas').gmap().bind('init', function() {
+	$('#map_canvas').gmap('search', { 'address': 'Stockholm' }, function(results, status) {
+		if ( status === 'OK' ) {
+			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+			$('#map_canvas').gmap('get', 'map').setView({'center':location});
+		}
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap({'callback':function() {
+	var self = this;
+	self.search({ 'address': 'Stockholm' }, function(results, status) {
+		if ( status === 'OK' ) {
+			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+			self.get('map').setView({'center':location});
+		}
+	});
+}});
+}}}
+
+{{{
+$('#map_canvas').gmap('search', { 'address': 'Stockholm' }, function(results, status) {
+    if ( status === 'OK' ) {
+		var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
+		$('#map_canvas').gmap('get', 'map').setView({'center':location});
+	}
+});
+}}}
+
+== Clear markers ==
+
+{{{
+$('#map_canvas').gmap('clear', 'markers');
+}}}
+
+== Example destroy ==
+
+{{{
+$('#map_canvas').gmap('destroy');
+}}}
+
+== Set/Get ==
+
+You can use the set and get methods to store an object/function
+
+{{{
+$('#map_canvas').gmap('set', 'alert', function() { alert('test'); } );
+$('#map_canvas').gmap('get', 'alert')();
+}}}
+
+Set 'foo' to the object { 'bar': 'baz' }
+
+{{{
+$('#map_canvas').gmap('set', 'foo', {'bar':'baz'} } );
+}}}
+
+Get 'foo' 
+
+{{{
+$('#map_canvas').gmap('get', 'foo').bar;
+// or
+$('#map_canvas').gmap('get', 'foo > bar');
+}}}
+
+You can get an object and set a default value if it doesn't exist
+{{{
+var theAlertFunction = $('#map_canvas').gmap('get', 'alert', function() { alert('test'); } )();
+}}}
+
+
+== Get markers, services, and more ==
+
+Get all markers as an array
+
+{{{
+var markers = $('#map_canvas').gmap('get', 'markers');
+}}}
+
+If you call the method addMarkers and set the id property the $('#map_canvas').gmap('get', 'markers') will return an associative array which means you cannot use .length to count the markers.
+
+Get a marker with the id 'm_1'
+
+{{{
+var marker = $('#map_canvas').gmap('get', 'markers > m_1');
+var marker = $('#map_canvas').gmap('get', 'markers')['m_1'];
+var marker = $('#map_canvas').gmap('get', 'markers').m_1;
+}}}
+
+Get the first marker if not using id's
+
+{{{
+var marker = $('#map_canvas').gmap('get', 'markers > 0');
+var marker = $('#map_canvas').gmap('get', 'markers')[0];
+}}}
+
+Get all services
+
+{{{
+$('#map_canvas').gmap('get', 'services');
+}}}
+
+Get a specific service implementation
+
+{{{
+$('#map_canvas').gmap('get', 'services > DirectionsManager');
+$('#map_canvas').gmap('get', 'services')['DirectionsManager'];
+$('#map_canvas').gmap('get', 'services').DirectionsManager;
+}}}
+
+Get all overlays
+
+{{{
+$('#map_canvas').gmap('get', 'overlays');
+}}}
+
+Polygons/Circles/etc are stored in an array
+
+{{{
+var arrayOfPolygons = $('#map_canvas').gmap('get', 'overlays > Polygon');
+}}}
+
+Get bounds set by the addMarker property, not the map.bounds
+
+{{{
+$('#map_canvas').gmap('get', 'bounds');
+}}}
+
+Clear bounds set by the addMarker property, not the map.bounds
+
+{{{
+$('#map_canvas').gmap('set', 'bounds', null);
+}}}
