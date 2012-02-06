@@ -1,4 +1,4 @@
-#API
+#summary API
 
 = Dependencies =
 
@@ -37,13 +37,13 @@
 || addEventListener(type:string, callback:function()) || none || Adds a Google event listener or binds a jQuery event||
 
 || *Event* || *Description* || *Supported elements* || 
-|| click || Adds a click event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| rightclick || Adds a right click event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| dblclick || Adds a double click event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| mouseover || Adds a mouse over event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| mouseout || Adds a mouse out event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| drag || Adds a drag event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
-|| dragend || Adds a drag end event. || [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#Map Map], [http://code.google.com/intl/sv-SE/apis/maps/documentation/javascript/reference.html#marker Marker]||
+|| click || Adds a click event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| rightclick || Adds a right click event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| dblclick || Adds a double click event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| mouseover || Adds a mouse over event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| mouseout || Adds a mouse out event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| drag || Adds a drag event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
+|| dragend || Adds a drag end event. || [http://msdn.microsoft.com/en-us/library/gg427609.aspx Map], [http://msdn.microsoft.com/en-us/library/gg427615.aspx PushPin]||
 
 == jquery.ui.map overlays ==
 
