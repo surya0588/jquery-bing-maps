@@ -68,6 +68,7 @@ $('#map_canvas').gmap('addControl', 'control', 0);
 The position can be set with a string representation of a latitude/longitude ('xx.xx,xx.xx') or with a Microsoft.Maps.Location().
 If you set the property bounds to true the map will calculate the viewport and zoom automagically, overriding any zoom set in the contructor.
 If a property 'id' is added to the addMarker method the marker will be retrievable by it's id with the 'get' method.
+All options: http://msdn.microsoft.com/en-us/library/gg427629.aspx
 
 {{{
 $('#map_canvas').gmap().bind('init', function(evt, map) { 
@@ -89,6 +90,7 @@ $('#map_canvas').gmap('addMarker', { /*id:'m_1',*/ 'location': '42.345573,-71.09
 
 Showing an InfoWindow on a click event, use 'title' and 'description' as properties for the info window if you
 don't want to add HTML content.
+All options: http://msdn.microsoft.com/en-us/library/gg675210.aspx
 
 {{{
 $('#map_canvas').gmap().bind('init', function() { 
@@ -186,6 +188,11 @@ $('#map_canvas').gmap('displayDirections', { 'origin': 'Los Angeles, USA', 'dest
 
 Find an object by searching a single property with a single value.
 
+All options: 
+  * property
+  * value
+  * delimiter (optional)
+
 {{{
 $('#map_canvas').gmap().bind('init', function() { 
 	$('#map_canvas').gmap('addMarker', { 'tags':'foo', 'location': '42.345573,-71.098326', 'bounds':true });
@@ -213,6 +220,11 @@ $('#map_canvas').gmap('find', 'markers', { 'property': 'tags', 'value': 'foo' },
 
 Find an object by searching a single property with multiple values.
 
+All options: 
+  * property
+  * value
+  * delimiter (optional)
+  
 {{{
 $('#map_canvas').gmap().bind('init', function() { 
 	$('#map_canvas').gmap('addMarker', { 'tags':'foo, bar, baz', 'location': '42.345573,-71.098326', 'bounds':true });
