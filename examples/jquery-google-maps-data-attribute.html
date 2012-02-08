@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+   <head>
+		<title>Example with jQuery data HTML5 attribute - Bing maps jQuery plugin</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta http-equiv="content-language" content="en" />
+		<meta name="author" content="Johan Säll Larsson" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="keywords" content="Bing maps, jQuery, plugin, HTML5, Data" />
+		<meta name="description" content="An example how to use jQuery data HTML5 attribute with Bing maps jQuery plugin" />
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="Example with jQuery data HTML5 attribute - Bing maps jQuery plugin" />
+		<meta name="DC.subject" content="Bing maps;jQuery;plugin;HTML5;Data" />
+		<meta name="DC.description" content="An example how to use jQuery data HTML5 attribute with Bing maps jQuery plugin" />
+		<meta name="DC.creator" content="Johan Säll Larsson" />
+		<meta name="DC.language" content="en" />
+		<link type="text/css" rel="stylesheet" href="css/960/960.css" />
+		<link type="text/css" rel="stylesheet" href="css/960/960_16_col.css" />
+		<link type="text/css" rel="stylesheet" href="css/normalize/normalize.css" />
+		<link type="text/css" rel="stylesheet" href="css/prettify/prettify.css" />
+		<link type="text/css" rel="stylesheet" href="css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Anton" />
+		<script type="text/javascript" src="js/modernizr-2.0.6/modernizr.min.js"></script>
+    </head>
+    <body>
+		<header class="dark">
+			<div class="container_16">
+				<h1><a href="/">Bing maps jQuery plugin <span id="version"></span></a> data HTML5 attribute</h1>
+			</div>
+		</header>
+		<div class="container_16">
+			<article class="grid_16">
+				<div class="item rounded dark">
+					<div id="map_canvas" class="map rounded"></div>
+				</div>
+				<p>This example shows a meta data mapping similar to the plugin jMapping.</p>
+				<div class="content rounded light shadow">
+					<ul>
+						<li data-gmapping='{"id":"m_1","latlng":{"lat":27.6648274,"lng":-81.51575350000002},"tags":"drupal"}'>
+							<p class="info-box">Florida DrupalCamp - Feb 11 2012</p>
+						</li>
+						<li data-gmapping='{"id":"m_2","latlng":{"lat":1.352083,"lng":103.81983600000001},"tags":"drupal"}'>
+							<p class="info-box">DrupalCamp Singapore - Mar 03 2012</p>					
+						</li>
+						<li data-gmapping='{"id":"m_3","latlng":{"lat":39.7391536,"lng":-104.9847034},"tags":"drupal"}'>
+							<p class="info-box">DrupalCon 2012 Denver - Mar 20 2012</p>				
+						</li>
+						<li data-gmapping='{"id":"m_4","latlng":{"lat":36.1658899,"lng":-86.7844432},"tags":"drupal"}'>
+							<p class="info-box">DrupalCamp Nashville - Apr 28 2012</p>				
+						</li>
+						<li data-gmapping='{"id":"m_5","latlng":{"lat":55.6760968,"lng":12.568337100000008},"tags":"drupal"}'>
+							<p class="info-box">DrupalCamp Copenhagen 5.0 - May 11 2012</p>				
+						</li>
+					</ul>
+				</div>
+				<div class="content rounded light shadow">
+					<h2>Using jquery with Bing maps</h2>
+					<p>
+						Download <a href="http://jquery.com/">jQuery 1.4.X or higher</a> or
+						use <a href="http://code.google.com/intl/sv-SE/apis/libraries/devguide.html">Googles</a> or <a href="http://www.asp.net/ajaxlibrary/cdn.ashx">Microsofts</a> 
+						<abbr title="Content delivery network"><a href="http://en.wikipedia.org/wiki/Content_delivery_network">CDN</a></abbr>.
+					</p>
+<pre class="prettyprint rounded">
+&lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.ui.map.js"&gt;&lt;/script&gt;</pre>
+
+<pre class="prettyprint rounded">
+$('#map_canvas').gmap('credentials': YOUR_BING_MAP_CREDENTIALS).bind('init', function(ev, map) {
+	$("[data-gmapping]").each(function(i,el) {
+		var data = $(el).data('gmapping');
+		$('#map_canvas').gmap('addMarker', 
+			{
+				'id': data.id, 
+				'tags':data.tags, 
+				'location': new Microsoft.Maps.Location(data.latlng.lat, data.latlng.lng), 
+				'bounds':true 
+			}, 
+			function(map,marker) {
+				$(el).click(function() {
+					$(marker).triggerEvent('click');
+				});
+			}	
+		).click(function() {
+			$('#map_canvas').gmap('openInfoWindow', { 'description': $(el).find('.info-box').text() }, this);
+		});
+	});	
+});</pre>
+
+				</div>
+			</article>
+		</div>
+		<footer class="dark">
+			<div class="container_16">
+				<div class="grid_8">
+					<h2>More Bing maps and jQuery examples</h2>
+					<ul>
+						<li><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jquery-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
+						<li><a href="jquery-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
+						<li><a href="jquery-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
+						<li><a href="jquery-bing-maps-microdata.html">Add markers with microdata</a></li>
+						<li><a href="jquery-bing-maps-microformat.html">Add markers with microformats</a></li>
+						<li><a href="jquery-bing-maps-rdfa.html">Add markers with RDFa</a></li>
+						<li><a href="jquery-bing-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+						<li><a href="jquery-google-maps-clustering.html">Using clusters with Bing Maps</a></li>
+						<li class="sel buttonize"><a href="jquery-google-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+						<li><a href="jquery-google-maps-geolocation.html">Bing maps with geolocation</a></li>
+						<li><a href="jquery-bing-maps-mobile.html">Bing maps with jQuery mobile (jQM)</a></li>
+					</ul>
+				</div>
+				<div id="forum" class="hidden rounded forum grid_8"></div>
+				<div class="clear"></div>
+				<div itemscope itemtype="http://data-vocabulary.org/Person">
+					Author: <span itemprop="name">Johan S&auml;ll Larsson</span> (<a href="http://johansalllarsson.se" itemprop="url">http://johansalllarsson.se</a>)
+				</div>
+			</div>
+		</footer>
+		
+		<script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		<script type="text/javascript" src="js/jquery-1.7.1/jquery.min.js"></script>
+        <script type="text/javascript" src="js/underscore-1.2.2/underscore-min.js"></script>
+		<script type="text/javascript" src="js/backbone-0.5.3/backbone-min.js"></script>
+		<script type="text/javascript" src="js/prettify/prettify.min.js"></script>
+		<script type="text/javascript" src="js/demo.js"></script>
+		<script type="text/javascript" src="../js/jquery.ui.bmap.js"></script>
+		<script type="text/javascript">
+            $(function() { 
+				demo.add(function() {
+					$('#map_canvas').gmap(jQuery.extend({'callback': function() {
+						var self = this;
+						$("[data-gmapping]").each(function(i,el) {
+							var data = $(el).data('gmapping');
+							console.log(data);
+							self.addMarker({'id': data.id, 'tags':data.tags, 'location': new Microsoft.Maps.Location(data.latlng.lat, data.latlng.lng), 'bounds':true }, function(map,marker) {
+								$(el).click(function() {
+									$(marker).triggerEvent('click');
+								});
+							}).click(function() {
+								self.openInfoWindow({ 'title': 'DrupalCamp', 'description': $(el).find('.info-box').text() }, this);
+							});
+						});						
+					}}, demo.mapOptions));
+				}).load();
+			});
+        </script>
+    
+	</body>
+</html>
