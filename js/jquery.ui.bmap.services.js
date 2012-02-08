@@ -28,37 +28,43 @@
 		
 		/**
 		 * A service for converting between an address and a LatLng.
+		 * geocoderRequest {
+		 *		address: string (optional)
+		 *		location: Microsoft.Maps.Location (optional)
+		 * }
 		 */
-		search: function(a, b) {
-			var q = ( typeof a.query === 'string' ) ? a.query : ( a.query.latitude + ','+ a.query.longitude );
-			_callback( GEOCODE_URL.replace('{0}', q).replace('{1}', this.options.credentials), b);
+		search: function(geocoderRequest, callback) {
+			var query = ( geocoderRequest.address ) ? geocoderRequest.address : ( geocoderRequest.location.latitude + ','+ geocoderRequest.location.longitude );
+			_callback( GEOCODE_URL.replace('{0}', query).replace('{1}', this.options.credentials), callback);
 		},
 		
 		/** 
-		 * @param request:object (start, end)
+		 * @param request:object (origin, destination)
 		 * 
 		 */
-		loadDirections: function(a, b) {
-			_callback( DIRECTIONS_URL.replace('{0}', a.start).replace('{1}', a.end).replace('{2}', this.options.credentials), b);
+		loadDirections: function(directionsRequest, callback) {
+			_callback( DIRECTIONS_URL.replace('{0}', directionsRequest.origin).replace('{1}', directionsRequest.destination).replace('{2}', this.options.credentials), callback);
 		},
 		
-		displayDirections: function(a, b, c) {
+		displayDirections: function(directionsRequest, renderOptions) {
 			var self =this;
-			var d = function() {
-				var d = self.get('services > DirectionsManager', new Microsoft.Maps.Directions.DirectionsManager(self.get('map')));
-				d.resetDirections();
-				directionsErrorEventObj = Microsoft.Maps.Events.addHandler(d, 'directionsError', function(arg) { alert(arg.message) });
-				directionsUpdatedEventObj = Microsoft.Maps.Events.addHandler(d, 'directionsUpdated', function() { });
-				d.setRequestOptions({ routeMode: Microsoft.Maps.Directions.RouteMode.driving });
-				d.addWaypoint(new Microsoft.Maps.Directions.Waypoint(a));
-				d.addWaypoint(new Microsoft.Maps.Directions.Waypoint(b));
-				d.setRenderOptions(c);
-				d.calculateDirections();
+			var directionCallback = function() {
+				var directionManager = self.get('services > DirectionsManager', new Microsoft.Maps.Directions.DirectionsManager(self.get('map')));
+				var origin = ( typeof directionsRequest.origin === 'string' ) ? { 'address': origin } : { 'location': origin };
+				var destination = ( typeof directionsRequest.destination === 'string' ) ? { 'address': destination } : { 'location': destination };
+				directionManager.resetDirections();
+				directionManager.setRequestOptions(directionsRequest.routeMode);
+				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(origin));
+				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(destination));
+				if (renderOptions) {
+					directionManager.setRenderOptions(renderOptions.panel);
+				}
+				directionManager.calculateDirections();
 			}
 			if ( !self.get('services > DirectionsManager') ) {
-				Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: d });
+				Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: directionCallback });
 			} else {
-				d();
+				directionCallback();
 			}
 		}
 
