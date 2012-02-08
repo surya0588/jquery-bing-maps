@@ -16,7 +16,7 @@
 		 * @param callback:function(position, status)
 		 * @param geoPositionOptions:object, see https://developer.mozilla.org/en/XPCOM_Interface_Reference/nsIDOMGeoPositionOptions
 		 */
-		getCurrentPosition: function(a, b) {
+		/*getCurrentPosition: function(a, b) {
 			var c = this;
 			if ( navigator.geolocation ) {
 				navigator.geolocation.getCurrentPosition ( 
@@ -31,6 +31,23 @@
 			} else {
 				c._call(a, null, "NOT_SUPPORTED");
 			}
+		},*/
+		
+		/**
+		 * Gets the current position
+		 * @param callback:function(position, status)
+		 * @param geoPositionOptions:object, see http://msdn.microsoft.com/en-us/library/hh125839.aspx
+		 */
+		getCurrentPosition: function(callback, geoPositionOptions) {
+			var map = this.get('map'), opts = {} || geoPositionOptions;
+			opts.successCallback = function(position) {
+				callback(position, "OK");
+			};
+			opts.errorCallback = function(error) {
+				callback(null, ( error.code === 5 ) ? 'NOT_SUPPORTED' : error.code);
+			};
+			var geolocation = this.get('geolocation', new Microsoft.Maps.GeoLocationProvider(map));
+			geolocation.getCurrentPosition(opts)
 		},
 		
 		/**
@@ -66,34 +83,6 @@
 		},
 		
 		/**
-		 * Autocomplete using Google Geocoder
-		 * @param panel:string/node/jquery
-		 * @param callback:function(results, status)
-		 */
-		autocomplete: function(a, b) {
-			var self = this;
-			$(this._unwrap(a)).autocomplete({
-				source: function( request, response ) {
-					self.search({'address':request.term}, function(results, status) {
-						if ( status === 'OK' ) {
-							response( $.map( results, function(item) {
-								return { label: item.formatted_address, value: item.formatted_address, position: item.geometry.location }
-							}));
-						} else if ( status === 'OVER_QUERY_LIMIT' ) {
-							alert('Google said it\'s too much!');
-						}
-					});
-				},
-				minLength: 3,
-				select: function(event, ui) { 
-					self._call(b, ui);
-				},
-				open: function() { $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" ); },
-				close: function() { $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" ); }
-			});
-		},
-		
-		/**
 		 * Page through the markers. Very simple version.
 		 * @param prop:the marker property to show in display, defaults to title
 		 */
@@ -115,6 +104,41 @@
 				self.get('p_nav')((i < self.get('markers').length - 1), 1, this);
 			});
 			self.addControl($el, 0);			
+		},
+		
+		/**
+		 * Sets the data that is to be clustered and displayed on the map. All objects 
+		 * must at minimium have a Latitude and Longitude properties. 
+		 * @param arrayOfLocations:array - An array of objects that are to be mapped. 
+		 */
+		createCluster: function(arrayOfLocations) {
+			var self = this;
+			Microsoft.Maps.registerModule('clusterModule', 'http://www.bingmapsportal.com/Scripts/V7ClientSideClustering.js');
+			Microsoft.Maps.loadModule('clusterModule', { callback: function() {
+				self.clear('markers');
+				var clusteredCollection = new ClusteredEntityCollection( self.get('map'), { 
+					singlePinCallback: function(data) {
+						var pushPin = new Microsoft.Maps.Pushpin(data._LatLong, {
+							'icon': 'http://www.bingmapsportal.com/Content/nonclusteredpin.png',
+							'anchor': new Microsoft.Maps.Point(8, 8)
+						});
+						pushPin.title = data.Title;
+						pushPin.description = data.Description;
+						pushPin.GridKey = data.GridKey;
+						$(pushPin).click(function() {
+							self.openInfoWindow({'title': this.target.title, 'description': this.target.description}, this);
+						});
+						return pushPin;
+					},
+					clusteredPinCallback: function(cluster, latlong) {
+						return new Microsoft.Maps.Pushpin(latlong, {
+							'icon': 'http://www.bingmapsportal.com/Content/clusteredpin.png',
+							'anchor': new Microsoft.Maps.Point(8, 8)
+						});
+					}
+				});
+				clusteredCollection.SetData(arrayOfLocations);
+			}});
 		}
 	
 	});

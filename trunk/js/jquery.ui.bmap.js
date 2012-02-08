@@ -272,11 +272,11 @@
 		 * @param isLoadedCallback:function() (optional) - if the module is loaded
 		 */
 		load: function(key, options, isLoadedCallback) {
-            if ( !Microsoft.Maps.moduleLoaded(key) ) {
+            //if ( !Microsoft.Maps.moduleLoaded(key) ) {
 				Microsoft.Maps.loadModule(key, options);
-			} else {
-				if (isLoadedCallback) { isLoadedCallback(); }
-			}
+			//} else {
+			//	if (isLoadedCallback) { isLoadedCallback(); }
+			//}
 		},
 		
 		/**
@@ -288,6 +288,14 @@
 		 */
 		register: function(key, url, options) {
 			Microsoft.Maps.registerModule(key, url, options);
+		},
+		
+		/**
+		 * Helper function to check if a LatLng is within the viewport
+		 * @param marker:Microsoft.Maps.Pushpin
+		 */
+		inViewport: function(marker) {
+			return this.get('map').getBounds().contains(marker.getLocation());
 		},
 
 		/**
