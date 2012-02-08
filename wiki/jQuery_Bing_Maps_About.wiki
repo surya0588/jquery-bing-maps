@@ -2,7 +2,8 @@
 
 = jQuery Bing Maps =
 
-The jQuery Bing Maps plugin aims at making maps on the web or mobile devices easier to set up and use. JQuery Bing Maps share both the jQuery Google Maps plugin structure and the methods, which means you could pretty much write the code one time and switch between Bing Maps and Google Maps.
+The jQuery Bing Maps plugin aims at making maps on the web or mobile devices easier to set up and use. JQuery Bing Maps share both the jQuery Google Maps plugin structure and the methods, which means you could pretty much write the code one time and switch between Bing Maps and Google Maps. 
+The plugin extends the Bing Map framework with features such as marker property search, which comes in handy whenever you need to e.g. filter by tag or category, and load markers by metadata markup such as Microdata, Microformats and RDFa. 
 
 == Why Bing Maps? ==
 
