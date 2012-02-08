@@ -3,10 +3,10 @@
 	window.demo = { 
 		'version': '1.0', 
 		'mapOptions': { 'credentials': 'Arkh4--7e-cy1ek_QH9oq3qerZut_jOPrR8h8C0Z69RKgE8aUuBe0inLrDWZvacw', 'enableSearchLogo': false, 'showBreadcrumb': true, 'enableClickableLogo': false, 'showScalebar': false },
-		'ga': 'UA-17614686-5',
+		'ga': 'UA-17614686-7',
 		'url': 'http://jquery-bing-maps.googlecode.com/', 
-		'forum': 'http://groups.google.com/group/jquery-ui-map-discuss/feed/rss_v2_0_msgs.xml', 
-		'subscribe': 'http://groups.google.com/group/jquery-ui-map-discuss/boxsubscribe', 
+		'forum': 'http://groups.google.com/group/jquery-bing-maps/feed/rss_v2_0_msgs.xml', 
+		'subscribe': 'http://groups.google.com/group/jquery-bing-maps/boxsubscribe', 
 		'exception': 'Unable to load due to either poor internet connection or some CDN\'s aren\'t as responsive as we would like them to be. Try refreshing the page :D.', 
 		'col': [], 
 		'tests': [],

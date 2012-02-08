@@ -49,7 +49,7 @@
 					
 <pre class="prettyprint rounded">
 $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS }).bind('init', function() {
-	$('#map_canvas').gmap('search', { 'query': 'New York, USA' }, function(result, status) {
+	$('#map_canvas').gmap('search', { 'address': 'New York, USA' }, function(result, status) {
 		if ( status === 'OK' ) {
 			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
 			$('#map_canvas').gmap('addMarker', { 'location': location, 'bounds': true });
@@ -60,7 +60,7 @@ $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS }).bind('init', 
 <pre class="prettyprint rounded">
 $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'callback': function(map) {
 	var self = this;
-	self.search( { 'query': 'New York, USA' }, function(result, status) {
+	self.search( { 'address': 'New York, USA' }, function(result, status) {
 		if ( status === 'OK' ) {
 			var location = new Microsoft.Maps.Location(item.point.coordinates[0],item.point.coordinates[1]);
 			self.addMarker( { 'location': location, 'bounds': true });
@@ -84,6 +84,9 @@ $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'callback': fun
 						<li><a href="jquery-bing-maps-microformat.html">Add markers with microformats</a></li>
 						<li><a href="jquery-bing-maps-rdfa.html">Add markers with RDFa</a></li>
 						<li><a href="jquery-bing-maps-extend-with-pagination.html">Extend the plugin with pagination</a></li>
+						<li><a href="jquery-google-maps-clustering.html">Using clusters with Bing Maps</a></li>
+						<li><a href="jquery-google-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
+						<li><a href="jquery-google-maps-geolocation.html">Bing maps with geolocation</a></li>
 						<li><a href="jquery-bing-maps-mobile.html">Bing maps with jQuery mobile (jQM)</a></li>					
 					</ul>
 				</div>
@@ -110,7 +113,7 @@ $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'callback': fun
 							if ( $(this).val() != '' && event.which == 13 ) {
 								var width = parseInt(self.get('width', self.el.css('width')));
 								self.clear('markers');
-								self.search({ 'query': $(this).val() }, function(result, status) { 
+								self.search({ 'address': $(this).val() }, function(result, status) { 
 									if ( status === 'OK' ) {
 										self.el.animate({ 'width': width-300 }, { 'duration': 250 });
 										$('#search_result').animate({ 'width': 300 }, { 'duration': 250 });
