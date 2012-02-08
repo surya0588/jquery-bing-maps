@@ -132,7 +132,6 @@ $('#map_canvas').gmap('credentials': YOUR_BING_MAP_CREDENTIALS).bind('init', fun
 						var self = this;
 						$("[data-gmapping]").each(function(i,el) {
 							var data = $(el).data('gmapping');
-							console.log(data);
 							self.addMarker({'id': data.id, 'tags':data.tags, 'location': new Microsoft.Maps.Location(data.latlng.lat, data.latlng.lng), 'bounds':true }, function(map,marker) {
 								$(el).click(function() {
 									$(marker).triggerEvent('click');

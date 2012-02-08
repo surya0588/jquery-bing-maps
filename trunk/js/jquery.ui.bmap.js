@@ -265,32 +265,6 @@
 		},
 		
 		/**
-		 * Loads the specified registered module, making its functionality available. An optional function can be specified that is called when the module is loaded.
-		 * The following Bing Maps modules are available: Microsoft.Maps.Directions, Microsoft.Maps.Traffic, Microsoft.Maps.VenueMaps 
-		 * @param key:string
-		 * @param options (optional)
-		 * @param isLoadedCallback:function() (optional) - if the module is loaded
-		 */
-		load: function(key, options, isLoadedCallback) {
-            //if ( !Microsoft.Maps.moduleLoaded(key) ) {
-				Microsoft.Maps.loadModule(key, options);
-			//} else {
-			//	if (isLoadedCallback) { isLoadedCallback(); }
-			//}
-		},
-		
-		/**
-		 * Registers a module with the map control. The name of the module is specified in key, the module script is defined in scriptUrl, and the options provides the location of a *.css file to load with the module.
-		 * Once you have registered a module, you can make its functionality available by loading it using load. 
-		 * @param key:string
-		 * @param url:string
-		 * @param options:{styleURLs} (optional)
-		 */
-		register: function(key, url, options) {
-			Microsoft.Maps.registerModule(key, url, options);
-		},
-		
-		/**
 		 * Helper function to check if a LatLng is within the viewport
 		 * @param marker:Microsoft.Maps.Pushpin
 		 */
@@ -391,43 +365,47 @@
 	
 	jQuery.fn.extend( {
 		
-		click: function(callback) { 
-			return this.addEventListener('click', callback);
+		click: function(a, b) { 
+			return this.addEventListener('click', a, b);
 		},
 		
-		rightclick: function(callback) {
-			return this.addEventListener('rightclick', callback);
+		rightclick: function(a, b) {
+			return this.addEventListener('rightclick', a, b);
 		},
 		
-		dblclick: function(callback) {
-			return this.addEventListener('dblclick', callback);
+		dblclick: function(a, b) {
+			return this.addEventListener('dblclick', a, b);
 		},
 		
-		mouseover: function(callback) {
-			return this.addEventListener('mouseover', callback);
+		mouseover: function(a, b) {
+			return this.addEventListener('mouseover', a, b);
 		},
 		
-		mouseout: function(callback) {
-			return this.addEventListener('mouseout', callback);
+		mouseout: function(a, b) {
+			return this.addEventListener('mouseout', a, b);
 		},
 		
-		drag: function(callback) {
-			return this.addEventListener('drag', callback);
+		drag: function(a) {
+			return this.addEventListener('drag', a);
 		},
 		
 		dragend: function(a) {
-			return this.addEventListener('dragend', a );
+			return this.addEventListener('dragend', a);
 		},
 		
-		triggerEvent: function(callback) {
-			Microsoft.Maps.Events.invoke(this[0], callback);		
+		triggerEvent: function(a) {
+			Microsoft.Maps.Events.invoke(this[0], a);		
 		},
 
-		addEventListener: function(a, b) {
+		addEventListener: function(a, b, c) {
 			if ( this[0] instanceof Microsoft.Maps.Pushpin || this[0] instanceof Microsoft.Maps.Infobox || this[0] instanceof Microsoft.Maps.Map ) {
 				Microsoft.Maps.Events.addHandler(this[0], a, b);
 			} else {
-				this.bind(a, b);	
+				if (c) {
+					this.bind(a, b, c);
+				} else {
+					this.bind(a, b);
+				}	
 			}
 			return this;
 		}

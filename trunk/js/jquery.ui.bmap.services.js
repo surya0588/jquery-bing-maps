@@ -34,7 +34,9 @@
 		 * }
 		 */
 		search: function(geocoderRequest, callback) {
-			var query = ( geocoderRequest.address ) ? geocoderRequest.address : ( geocoderRequest.location.latitude + ','+ geocoderRequest.location.longitude );
+			console.log(geocoderRequest);
+			var query = ( geocoderRequest.address ) ? geocoderRequest.address : ( geocoderRequest.point.latitude + ','+ geocoderRequest.point.longitude );
+			console.log(query);
 			_callback( GEOCODE_URL.replace('{0}', query).replace('{1}', this.options.credentials), callback);
 		},
 		
@@ -50,14 +52,14 @@
 			var self =this;
 			var directionCallback = function() {
 				var directionManager = self.get('services > DirectionsManager', new Microsoft.Maps.Directions.DirectionsManager(self.get('map')));
-				var origin = ( typeof directionsRequest.origin === 'string' ) ? { 'address': origin } : { 'location': origin };
-				var destination = ( typeof directionsRequest.destination === 'string' ) ? { 'address': destination } : { 'location': destination };
+				var origin = ( typeof directionsRequest.origin === 'string' ) ? { 'address': directionsRequest.origin } : { 'location': directionsRequest.origin };
+				var destination = ( typeof directionsRequest.destination === 'string' ) ? { 'address': directionsRequest.destination } : { 'location': directionsRequest.destination };
 				directionManager.resetDirections();
 				directionManager.setRequestOptions(directionsRequest.routeMode);
 				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(origin));
 				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(destination));
 				if (renderOptions) {
-					directionManager.setRenderOptions(renderOptions.panel);
+					directionManager.setRenderOptions({'itineraryContainer': renderOptions.panel});
 				}
 				directionManager.calculateDirections();
 			}
