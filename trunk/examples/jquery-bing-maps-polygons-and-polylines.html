@@ -2,13 +2,13 @@
    <head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<title>Bing maps basic example - jQuery Bing maps</title>
-		<meta name="description" content="A jQuery Bing maps Hello world example using jQuery Bing maps v7 plugin for web and mobile" />
+		<title>Bing maps polygons and polylines - jQuery Bing maps</title>
+		<meta name="description" content="A jQuery Bing maps polygons and polylines example using jQuery Bing maps v7 plugin for web and mobile" />
 		<meta name="author" content="Johan Säll Larsson" />
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
-		<meta name="DC.title" content="Bing maps basic example - jQuery Bing maps" />
-		<meta name="DC.description" content="A jQuery Bing maps Hello world example using jQuery Bing maps v7 plugin for web and mobile" />
+		<meta name="DC.title" content="Bing maps polygons and polylines - jQuery Bing maps" />
+		<meta name="DC.description" content="A jQuery Bing maps polygons and polylines example using jQuery Bing maps v7 plugin for web and mobile" />
 		<meta name="DC.creator" content="Johan Säll Larsson" />
         <meta name="DC.language" content="en" />
 		<link type="text/css" rel="stylesheet" href="css/960/960.css" />
@@ -22,7 +22,7 @@
     <body>
 		<header class="dark">
 			<div class="container_16">
-				<h1><a href="/">jQuery Bing maps <span id="version"></span></a> basic example</h1>
+				<h1><a href="/">jQuery Bing maps <span id="version"></span></a> polygons and polylines</h1>
 			</div>
 		</header>
 		<div class="container_16">
@@ -41,26 +41,58 @@
 <pre class="prettyprint rounded">
 &lt;script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"&gt;&lt;/script&gt;
 &lt;script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.ui.bmap.js"&gt;&lt;/script&gt;</pre>
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.ui.bmap.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="PATH_TO_PLUGIN/jquery.ui.bmap.overlays.js"&gt;&lt;/script&gt;</pre>
+
+<pre class="prettyprint rounded">
+var polygonCoords = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20'];
+var polylinesCoords = ['20,-20', '-20,20'];</pre>
 
 <pre class="prettyprint rounded">
 $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS}).bind('init', function(ev, map) {
-	$('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bounds': true }).click( function() {
-		$('#map_canvas').gmap('openInfoWindow', { 'title': 'Hello World!' }, this);
+	$('#map_canvas').gmap('Polygon', { 
+		'paths': polygonCoords, 
+		'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+		'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+		'strokeThickness': 5 
+	});
+	$('#map_canvas').gmap('Polyline', { 
+		'paths': polylinesCoords, 
+		'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+		'strokeThickness': 5, 
+		'strokeDashArray': '5 2' 
 	});
 });</pre>
 
 <pre class="prettyprint rounded">
 $('#map_canvas').gmap({'credentials': YOUR_BING_MAP_CREDENTIALS, 'callback': function() {
 	var self = this;
-	self.addMarker({ 'location': '57.7973333,12.0502107', 'bounds': true }).click( function() {
-		self.openInfoWindow({ 'title': 'Hello World!' }, this);
+	self.addShape('Polygon', { 
+		'paths': polygonCoords, 
+		'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+		'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+		'strokeThickness': 5 
+	});
+	self.addShape('Polyline', { 
+		'paths': polylinesCoords, 
+		'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+		'strokeThickness': 5, 
+		'strokeDashArray': '5 2' 
 	});
 }});</pre>
 
 <pre class="prettyprint rounded">
-$('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bounds': true}).click( function() {
-	$('#map_canvas').gmap('openInfoWindow', { 'title': 'Hello World!' }, this);
+$('#map_canvas').gmap('Polygon', { 
+	'paths': polygonCoords, 
+	'fillColor': new Microsoft.Maps.Color(100,100,0,100), 
+	'strokeColor': new Microsoft.Maps.Color(200,0,100,100),
+	'strokeThickness': 5 
+});
+$('#map_canvas').gmap('Polyline', { 
+	'paths': polylinesCoords, 
+	'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 
+	'strokeThickness': 5, 
+	'strokeDashArray': '5 2' 
 });
 </pre>
 				</div>
@@ -71,7 +103,7 @@ $('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bound
 				<div class="grid_8 more">
 					<h2>More Bing maps and jQuery examples</h2>
 					<ul>
-						<li class="sel buttonize"><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
+						<li><a href="jquery-bing-maps-hello-world-example.html">Bing maps with jQuery mobile "Hello world" example</a></li>
 						<li><a href="jquery-bing-maps-filter-by-property.html">Filter pushpins by property</a></li>
 						<li><a href="jquery-bing-maps-load-marker-by-json.html">Load Bing map with JSON data</a></li>
 						<li><a href="jquery-bing-maps-geocoding-search.html">Address and longitude/latitude (Geocoding) lookup with Bing maps</a></li>
@@ -82,7 +114,7 @@ $('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bound
 						<li><a href="jquery-google-maps-clustering.html">Using clusters with Bing Maps</a></li>
 						<li><a href="jquery-google-maps-data-attribute.html">Add markers with jQuery data attribute</a></li>
 						<li><a href="jquery-google-maps-geolocation.html">Bing maps with geolocation</a></li>
-						<li><a href="jquery-bing-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
+						<li class="sel buttonize"><a href="jquery-bing-maps-polygons-and-polylines.html">Polygons and polylines example</a></li>
 						<li><a href="jquery-bing-maps-mobile.html">Bing maps with jQuery mobile (jQM)</a></li>						
 					</ul>
 				</div>
@@ -105,9 +137,10 @@ $('#map_canvas').gmap('addMarker', { 'location': '57.7973333,12.0502107', 'bound
 				demo.add(function() {
 					$('#map_canvas').gmap(jQuery.extend({'callback': function() {
 						var self = this;
-						self.addMarker({ 'location': '57.7973333,12.0502107', 'bounds': true }).click( function() {
-							self.openInfoWindow({ 'title': 'Hello World!' }, this);
-						});
+						var polygonCoords = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20'];
+						var polylinesCoords = ['20,-20', '-20,20'];
+						self.addShape('Polygon', { 'paths': polygonCoords, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+						self.addShape('Polyline', { 'paths': polylinesCoords, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
 					}}, demo.mapOptions));
 				}).load();
 			});
