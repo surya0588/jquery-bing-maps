@@ -354,7 +354,7 @@ $('#map_canvas').gmap().bind('init', function() {
 }}}
 
 {{{
-var polygons = ['0.0,0.0', '1.0,1.0', '2.0,2.0'];
+var polygons = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20'];
 $('#map_canvas').gmap().bind('init', function() { 
 	$('#map_canvas').gmap('addShape', 'Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
 });
@@ -369,7 +369,7 @@ $('#map_canvas').gmap({'callback':function() {
 }}}
 
 {{{
-var polygons = ['0.0,0.0', '1.0,1.0', '2.0,2.0'];
+var polygons = ['20,-20', '20,20', '-20,20', '-20,-20', '20,-20', '20,-20'];
 $('#map_canvas').gmap({'callback':function() {  
 	var self = this;
 	self.addShape('Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
