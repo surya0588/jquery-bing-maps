@@ -344,22 +344,36 @@ $('#map_canvas').gmap('microformat', '.vevent', function(result, item, index) {
 }}}
 
 
-== Example Polygon/Polyline/Rectangle/Circle ==
+== Example Polygon/Polyline ==
 
 {{{
+var polylines = ['0.0,0.0', '1.0,1.0'];
 $('#map_canvas').gmap().bind('init', function() { 
-	$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+	$('#map_canvas').gmap('addShape', 'Polyline', { 'paths': polylines, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
 });
 }}}
 
 {{{
+var polygons = ['0.0,0.0', '1.0,1.0', '2.0,2.0'];
+$('#map_canvas').gmap().bind('init', function() { 
+	$('#map_canvas').gmap('addShape', 'Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+});
+}}}
+
+{{{
+var polylines = ['0.0,0.0', '1.0,1.0'];
 $('#map_canvas').gmap({'callback':function() {  
-	$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+	var self = this;
+	self.addShape('Polyline', { 'paths': polylines, 'strokeColor': new Microsoft.Maps.Color(200, 100, 0, 100), 'strokeThickness': 5, 'strokeDashArray': '5 2' });
 }});
 }}}
 
 {{{
-$('#map_canvas').gmap('addShape', 'Circle', { 'strokeColor': "#FF0000", 'strokeOpacity': 0.8, 'strokeWeight': 2, 'fillColor': "#FF0000", 'fillOpacity': 0.35, 'center': new Microsoft.Maps.Location(58.12, 12.01), 'radius': 2000 });
+var polygons = ['0.0,0.0', '1.0,1.0', '2.0,2.0'];
+$('#map_canvas').gmap({'callback':function() {  
+	var self = this;
+	self.addShape('Polygon', { 'paths': polygons, 'fillColor': new Microsoft.Maps.Color(100,100,0,100), 'strokeColor': new Microsoft.Maps.Color(200,0,100,100),'strokeThickness': 5 });
+}});
 }}}
 
 == Search ==
