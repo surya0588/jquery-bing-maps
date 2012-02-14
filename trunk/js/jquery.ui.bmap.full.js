@@ -6,6 +6,21 @@
  */
 ( function($) {
 	
+	var GEOCODE_URL = 'http://dev.virtualearth.net/REST/v1/Locations/{0}?output=json&jsonp=?&key={1}';
+	var DIRECTIONS_URL = 'http://dev.virtualearth.net/REST/v1/Routes?wp.0={0}&wp.1={1}&routePathOutput=Points&output=json&jsonp=?&key={2}';
+	
+	function _callback(a, b) {
+		$.getJSON( a, function(c) {
+			if ( c.authenticationResultCode === 'ValidCredentials' && c.resourceSets && c.resourceSets.length > 0 && c.resourceSets[0].estimatedTotal > 0 ) {
+				b(c.resourceSets, 'OK');
+			} else {
+				b(null, 'ZERO_RESULTS');
+			}
+		}).error( function() { 
+			b(null, 'ERROR'); 
+		});
+	}
+	
 	/**
 	 * Plugin
 	 * @param namespace:string
@@ -149,7 +164,7 @@
 			pushpinOptions = (this._convert) ? this._convert('addMarker', pushpinOptions) : pushpinOptions;
 			pushpinOptions.location = this._latLng(pushpinOptions.location);
 			var pin = new pushpin(pushpinOptions.location, pushpinOptions);
-			for ( property in pushpinOptions ) {
+			for ( var property in pushpinOptions ) {
 				pin[property] = pushpinOptions[property];
 			}
 			var markers = this.get('markers', []);
@@ -360,6 +375,64 @@
 				return element;
 			}
 			return $('#'+element)[0];
+		},
+		/**
+		 * A service for converting between an address and a LatLng.
+		 * geocoderRequest {
+		 *		address: string (optional)
+		 *		location: Microsoft.Maps.Location (optional)
+		 * }
+		 */
+		search: function(geocoderRequest, callback) {
+			var query = ( geocoderRequest.address ) ? geocoderRequest.address : ( geocoderRequest.point.latitude + ','+ geocoderRequest.point.longitude );
+			_callback( GEOCODE_URL.replace('{0}', query).replace('{1}', this.options.credentials), callback);
+		},
+		
+		/** 
+		 * @param request:object (origin, destination)
+		 * 
+		 */
+		loadDirections: function(directionsRequest, callback) {
+			_callback( DIRECTIONS_URL.replace('{0}', directionsRequest.origin).replace('{1}', directionsRequest.destination).replace('{2}', this.options.credentials), callback);
+		},
+		
+		displayDirections: function(directionsRequest, renderOptions) {
+			var self =this;
+			var directionCallback = function() {
+				var directionManager = self.get('services > DirectionsManager', new Microsoft.Maps.Directions.DirectionsManager(self.get('map')));
+				var origin = ( typeof directionsRequest.origin === 'string' ) ? { 'address': directionsRequest.origin } : { 'location': directionsRequest.origin };
+				var destination = ( typeof directionsRequest.destination === 'string' ) ? { 'address': directionsRequest.destination } : { 'location': directionsRequest.destination };
+				directionManager.resetDirections();
+				directionManager.setRequestOptions(directionsRequest.routeMode);
+				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(origin));
+				directionManager.addWaypoint(new Microsoft.Maps.Directions.Waypoint(destination));
+				if (renderOptions) {
+					directionManager.setRenderOptions({'itineraryContainer': renderOptions.panel});
+				}
+				directionManager.calculateDirections();
+			}
+			if ( !self.get('services > DirectionsManager') ) {
+				Microsoft.Maps.loadModule('Microsoft.Maps.Directions', { callback: directionCallback });
+			} else {
+				directionCallback();
+			}
+		},
+		
+		/**
+		 * Adds a shape to the map
+		 * @param type:string Polygon, Polyline, Rectangle, Circle
+		 * @param options:object
+		 * @return object
+		 */
+		addShape: function(a, b) {
+			var self = this;
+			$.each(b.paths, function(i, path) {
+				b.paths[i] = self._latLng(path);
+			});
+			var shape = new Microsoft.Maps[a](b.paths, b);
+			this.get('overlays > ' + a, []).push(shape);
+			this.get('map').entities.push(shape);
+			return $(shape);
 		}
 		
 	});

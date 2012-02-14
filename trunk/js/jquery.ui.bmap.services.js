@@ -34,9 +34,7 @@
 		 * }
 		 */
 		search: function(geocoderRequest, callback) {
-			console.log(geocoderRequest);
 			var query = ( geocoderRequest.address ) ? geocoderRequest.address : ( geocoderRequest.point.latitude + ','+ geocoderRequest.point.longitude );
-			console.log(query);
 			_callback( GEOCODE_URL.replace('{0}', query).replace('{1}', this.options.credentials), callback);
 		},
 		
